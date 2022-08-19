@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - master
+      - dev
+      - staging
+      - branch-one
+      - branch-two
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
