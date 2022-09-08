@@ -8,6 +8,7 @@ on:
       - staging
       - branch-one
       - branch-two
+      - miyukiabe-baxter-patch-1
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
