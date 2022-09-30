@@ -3,11 +3,38 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import GraphiQL from "graphiql";
+
+const URL = "/data-api/graphql";
+
+function graphQLFetcher(graphQLParams) {
+  return fetch(URL, {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(graphQLParams)
+  }).then(response => response.json());
+}
+
+const defaultQuery = `
+{
+  players {
+    items {
+      id
+      name
+      played
+      winPercent
+      currentStreak
+      maxStreak
+    }
+  }
+}
+`;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <App />
+    <GraphiQL fetcher={graphQLFetcher} defaultQuery={defaultQuery} />,
   </React.StrictMode>
 );
 
