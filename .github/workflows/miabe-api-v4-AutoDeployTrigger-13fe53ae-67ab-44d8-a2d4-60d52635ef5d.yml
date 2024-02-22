@@ -1,0 +1,47 @@
+name: Trigger auto deployment for miabe-api-v4
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ dev ]
+    paths:
+    - '//**'
+    - '.github/workflows/miabe-api-v4-AutoDeployTrigger-13fe53ae-67ab-44d8-a2d4-60d52635ef5d.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.MIABEAPIV4_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.MIABEAPIV4_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.MIABEAPIV4_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: containerregistrymea2ouwrb6uiu.azurecr.io
+          registryUsername: ${{ secrets.MIABEAPIV4_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.MIABEAPIV4_REGISTRY_PASSWORD }}
+          containerAppName: miabe-api-v4
+          resourceGroup: reactbasic96b6starshotbd88
+          imageToBuild: containerregistrymea2ouwrb6uiu.azurecr.io/miabe-api-v4:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
+
+
