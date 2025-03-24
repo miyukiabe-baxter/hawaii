@@ -8,6 +8,7 @@ on:
       - staging
       - branch-one
       - branch-two
+      - branch-four
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
