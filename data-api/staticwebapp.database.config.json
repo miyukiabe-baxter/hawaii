@@ -4,8 +4,8 @@
       "database-type": "cosmos"
     },
     "cosmos": {
-      "database": "mydb",
-      "container": "joslin2",
+      "database": "sql-for-miabe-cosmodb-sql",
+      "container": "container1",
       "schema": "schema.gql"
     },
     "runtime": {
@@ -30,7 +30,7 @@
     },
     "entities": {
       "Player": {
-        "source": "mydb.joslin2",
+        "source": "sql-for-miabe-cosmodb-sql.container1",
         "rest": false,
         "graphql": true,
         "permissions": [
